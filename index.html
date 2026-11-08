@@ -3,11 +3,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GBoS GEOAI | Gambia Sea Level Rise Intelligence</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7.2.0/turf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
@@ -17,494 +16,353 @@
   --navy:#10243a;
   --blue:#1769aa;
   --cyan:#00a6c7;
-  --water:#168bd2;
+  --teal:#087f8c;
+  --green:#23845b;
+  --orange:#e68a27;
+  --red:#c74747;
   --bg:#edf2f7;
   --panel:#ffffff;
   --border:#dce4ed;
-  --muted:#64748b;
-  --text:#172b42;
-  --green:#15966a;
-  --orange:#e78a25;
-  --red:#d94a4a;
+  --text:#263548;
+  --muted:#718096;
 }
-* {box-sizing:border-box}
-html,body {
-  margin:0;width:100%;height:100%;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-  background:var(--bg);color:var(--text);
-  overflow:hidden;
-}
-header {
-  height:70px;background:var(--navy);color:white;
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+header{
+  height:67px;background:var(--navy);color:white;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 22px;gap:15px;
+  padding:0 20px;gap:12px
 }
-.brand {display:flex;align-items:center;gap:12px}
-.brand-icon {
-  width:42px;height:42px;border-radius:10px;
-  display:grid;place-items:center;background:#1769aa;
-  font-size:22px;
-}
-.brand h1 {font-size:16px;margin:0;font-weight:800;letter-spacing:.5px}
-.brand small {font-size:10px;color:#b8cee2;display:block;margin-top:4px}
-.header-right {text-align:right;font-size:11px;color:#c4d6e6}
-.status {color:#5de0ae;font-weight:700}
-.layout {
-  height:calc(100vh - 70px);
+.brand{font-size:18px;font-weight:800;letter-spacing:.5px}
+.brand small{display:block;font-size:10px;font-weight:400;color:#b9d2e7;margin-top:4px}
+.header-right{font-size:11px;color:#d9e7f3;text-align:right}
+main{
+  height:calc(100% - 67px);
   display:grid;
-  grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
-  gap:9px;padding:9px;
+  grid-template-columns:minmax(270px,1fr) minmax(350px,1fr) minmax(270px,1fr);
+  gap:9px;padding:9px
 }
-.panel {
-  min-width:0;min-height:0;background:var(--panel);
-  border:1px solid var(--border);border-radius:9px;
-  overflow-y:auto;overflow-x:hidden;
-  scrollbar-width:thin;scrollbar-color:#bdcbd8 transparent;
+.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:9px;min-width:0;min-height:0;overflow-y:auto;
+  scrollbar-width:thin
 }
-.panel::-webkit-scrollbar {width:6px}
-.panel::-webkit-scrollbar-thumb {background:#bdcbd8;border-radius:10px}
-.panel-title {
-  padding:14px 15px;background:#f7f9fc;
-  border-bottom:1px solid var(--border);
-  font-size:12px;font-weight:800;letter-spacing:.8px;
-  position:sticky;top:0;z-index:10;
+.panel-title{
+  padding:13px 14px;background:#f7f9fc;border-bottom:1px solid var(--border);
+  font-size:13px;font-weight:800;color:var(--navy);
+  position:sticky;top:0;z-index:500
 }
-.section {padding:13px 14px;border-bottom:1px solid #edf1f5}
-.section h3 {
-  font-size:11px;text-transform:uppercase;
-  letter-spacing:.6px;margin:0 0 11px;color:#38516b;
+.section{padding:12px 13px;border-bottom:1px solid #edf1f5}
+.section h3{
+  font-size:11px;text-transform:uppercase;letter-spacing:.65px;
+  color:#51647a;margin:0 0 10px
 }
-label {
-  display:block;font-size:11px;font-weight:700;
-  color:#43576d;margin:9px 0 5px;
+label{font-size:11px;font-weight:700;color:#4c5d70;display:block;margin:9px 0 5px}
+input,select,button{
+  width:100%;padding:9px 10px;border:1px solid #d3dce6;
+  border-radius:5px;background:white;color:#263548;font-size:12px
 }
-select,input[type=number],input[type=text] {
-  width:100%;height:34px;border:1px solid #d6e0ea;
-  border-radius:5px;padding:0 9px;background:white;
-  color:#253c53;font-size:11px;outline:none;
+input[type=file]{font-size:11px}
+input[type=range]{padding:0;accent-color:var(--blue)}
+button{cursor:pointer;font-weight:700;background:var(--blue);color:white;border:0}
+button:hover{filter:brightness(.94)}
+button.secondary{background:#e9eff6;color:#29435e;border:1px solid #d4dfeb}
+button.green{background:var(--green)}
+button.orange{background:var(--orange)}
+button.danger{background:#a84343}
+.button-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.help{font-size:10px;color:var(--muted);line-height:1.5;margin-top:6px}
+.status{
+  padding:9px;background:#eef5fb;border-left:3px solid var(--blue);
+  font-size:11px;line-height:1.5;border-radius:3px;margin-top:8px
 }
-input[type=range] {width:100%;accent-color:var(--blue)}
-.range-value {
-  display:flex;justify-content:space-between;
-  font-size:11px;font-weight:800;color:var(--blue);
+.status.error{background:#fff0f0;border-color:var(--red);color:#8b3333}
+.status.success{background:#eef9f2;border-color:var(--green);color:#276647}
+#map-panel{display:flex;flex-direction:column;overflow:hidden}
+#map{flex:1;min-height:250px;background:#dce8ee}
+.map-toolbar{
+  display:flex;flex-wrap:wrap;gap:6px;padding:8px;
+  background:white;border-bottom:1px solid var(--border)
 }
-button {
-  border:0;border-radius:5px;padding:9px 11px;
-  cursor:pointer;font-weight:700;font-size:11px;
-}
-.primary {background:var(--blue);color:white}
-.secondary {background:#eaf1f8;color:#24435f}
-.danger {background:#fff0ef;color:#b93838}
-.button-row {display:flex;gap:7px;margin-top:11px}
-.button-row button {flex:1}
-.checkline {
-  display:flex;align-items:center;gap:8px;
-  font-size:11px;margin:9px 0;color:#42576d;
-}
-.checkline input {accent-color:var(--blue)}
-.note {
-  background:#f0f6fb;border-left:3px solid var(--cyan);
-  padding:9px;font-size:10px;line-height:1.6;
-  color:#53687d;border-radius:3px;margin-top:10px;
-}
-.warning {
-  background:#fff8e9;border-left:3px solid var(--orange);
-  padding:9px;font-size:10px;line-height:1.6;
-  color:#77521d;border-radius:3px;margin-top:9px;
-}
-#map-panel {display:flex;flex-direction:column;overflow:hidden}
-.map-heading {
-  height:48px;flex-shrink:0;background:#f7f9fc;
-  border-bottom:1px solid var(--border);
-  padding:0 13px;display:flex;align-items:center;
-  justify-content:space-between;font-size:11px;font-weight:800;
-}
-#map {flex:1;min-height:0;width:100%;background:#dce7e9}
-.map-footer {
-  min-height:38px;display:flex;align-items:center;
-  justify-content:space-between;gap:6px;padding:7px 10px;
-  font-size:9px;color:#60758b;background:#fafbfd;
-  border-top:1px solid var(--border);
-}
-.legend {
-  position:absolute;z-index:500;bottom:52px;left:12px;
-  background:white;border:1px solid #d8e1ea;
-  border-radius:6px;padding:10px;font-size:10px;
-  box-shadow:0 2px 9px #0002;
-}
-.legend-row {display:flex;align-items:center;gap:7px;margin-top:6px}
-.swatch {width:14px;height:11px;border-radius:2px}
-.kpis {display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.kpi {
-  border:1px solid var(--border);border-radius:6px;
-  padding:10px;background:#fff;min-width:0;
-}
-.kpi small {font-size:9px;color:var(--muted);display:block}
-.kpi strong {
-  font-size:19px;display:block;margin-top:6px;
-  color:#173e63;overflow-wrap:anywhere;
-}
-.kpi em {font-size:9px;color:var(--muted);font-style:normal}
-.chart-box {
-  position:relative;height:190px;margin-top:8px;
-}
-.chart-box canvas {max-height:190px}
-.stat-line {
-  display:flex;justify-content:space-between;
-  border-bottom:1px solid #edf1f5;
-  padding:8px 0;font-size:10px;gap:5px;
-}
-.stat-line strong {color:#254b70;text-align:right}
-.footer {
-  padding:13px;font-size:9px;color:#718096;
-  line-height:1.8;text-align:center;background:#f7f9fc;
-}
-.progress {
-  height:5px;background:#e7edf3;border-radius:10px;
-  overflow:hidden;margin-top:7px;
-}
-.progress span {display:block;height:100%;width:0;background:var(--cyan)}
-.badge {
-  background:#e5f5f9;color:#087d9b;border-radius:4px;
-  padding:4px 7px;font-size:9px;font-weight:800;
-}
-@media(max-width:900px) {
-  html,body {height:auto;overflow:auto}
-  header {height:auto;min-height:70px}
-  .layout {height:auto;grid-template-columns:1fr}
-  .panel {min-height:350px;max-height:650px}
-  #map-panel {height:520px}
+.map-toolbar select{width:auto;min-width:115px;padding:7px;font-size:11px}
+.map-toolbar button{width:auto;padding:7px 10px;font-size:11px}
+.map-footer{padding:8px 10px;font-size:10px;color:var(--muted);background:#fff;border-top:1px solid var(--border)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi{background:#f5f8fb;border:1px solid #e2e9f0;border-radius:7px;padding:10px}
+.kpi .value{font-size:21px;font-weight:800;color:var(--navy);margin:4px 0}
+.kpi .name{font-size:10px;color:#62758a}
+.kpi .unit{font-size:10px;color:#8997a7}
+.chart-box{height:210px;position:relative;margin:8px 0 4px}
+.chart-box.tall{height:250px}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:10px;margin:7px 0}
+.swatch{width:13px;height:13px;border-radius:3px;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:10px}
+th,td{padding:7px 5px;border-bottom:1px solid #e7edf3;text-align:left}
+th{background:#f5f8fb;color:#52667d}
+.credit{padding:13px;font-size:10px;line-height:1.6;color:#64748b}
+.leaflet-popup-content{font-size:11px;line-height:1.5}
+#loading{display:none;color:#1769aa;font-size:11px;font-weight:700;margin-top:7px}
+@media(max-width:950px){
+  main{height:auto;min-height:calc(100% - 67px);grid-template-columns:1fr}
+  .panel{min-height:350px;max-height:650px}
+  #map-panel{height:550px;max-height:none}
+  #map{min-height:350px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
   <div class="brand">
-    <div class="brand-icon">🌊</div>
-    <div>
-      <h1>GBoS GEOAI | SEA LEVEL RISE INTELLIGENCE</h1>
-      <small>THE GAMBIA • COASTAL EXPOSURE • INUNDATION SIMULATION</small>
-    </div>
+    GBoS GEOAI | SEA LEVEL RISE INTELLIGENCE
+    <small>THE GAMBIA • COASTAL EXPOSURE • SCENARIO SIMULATION</small>
   </div>
   <div class="header-right">
-    <div class="status">● GEOSPATIAL SIMULATION</div>
-    <div>GIS / CARTOGRAPHY UNIT | GBoS</div>
+    GIS / CARTOGRAPHY UNIT<br>
+    Spatial Analysis &amp; Climate Intelligence
   </div>
 </header>
 
-<main class="layout">
+<main>
 
 <!-- LEFT: CONTROLS -->
 <aside class="panel">
-  <div class="panel-title">01 | SIMULATION CONTROLS</div>
+  <div class="panel-title">01 | DATA &amp; SIMULATION CONTROLS</div>
+
+  <div class="section">
+    <h3>EA boundary data</h3>
+    <label>Upload EA GeoJSON / Esri JSON</label>
+    <input id="fileInput" type="file" accept=".json,.geojson,.txt">
+    <label>Or load data from a URL</label>
+    <input id="dataUrl" type="url" placeholder="Paste direct GeoJSON / JSON URL">
+    <div class="button-row">
+      <button id="loadUrlBtn">Load URL</button>
+      <button class="secondary" id="clearBtn">Clear data</button>
+    </div>
+    <div class="help">
+      Expected EA attributes: RCO, lganame, distname, wardname,
+      feacode, eaname and Area_sqkm. Population and household fields
+      are detected separately from the uploaded data.
+    </div>
+    <div id="dataStatus" class="status">Waiting for EA boundary data.</div>
+  </div>
 
   <div class="section">
     <h3>Administrative selection</h3>
 
-    <label>Region</label>
-    <select id="region"><option value="">All regions</option></select>
+    <label>Region code (RCO)</label>
+    <select id="regionSelect"><option value="">All regions</option></select>
 
-    <label>District</label>
-    <select id="district"><option value="">All districts</option></select>
+    <label>LGA (lganame)</label>
+    <select id="lgaSelect"><option value="">All LGAs</option></select>
 
-    <label>Ward / ADM3</label>
-    <select id="ward"><option value="">All available units</option></select>
+    <label>District (distname)</label>
+    <select id="districtSelect"><option value="">All districts</option></select>
 
-    <div class="button-row">
-      <button class="primary" id="applyArea">Apply area</button>
-      <button class="secondary" id="resetArea">National view</button>
-    </div>
-    <div class="note">
-      Administrative boundaries are retrieved from GeoBoundaries.
-      Available administrative levels depend on the source dataset.
-    </div>
-  </div>
+    <label>Ward (wardname)</label>
+    <select id="wardSelect"><option value="">All wards</option></select>
 
-  <div class="section">
-    <h3>Sea level rise scenario</h3>
-
-    <label>Projection year</label>
-    <select id="year">
-      <option value="2030">2030</option>
-      <option value="2050" selected>2050</option>
-      <option value="2075">2075</option>
-      <option value="2100">2100</option>
-    </select>
-
-    <label>Scenario</label>
-    <select id="scenario">
-      <option value="low">Low scenario</option>
-      <option value="medium" selected>Medium scenario</option>
-      <option value="high">High scenario</option>
-      <option value="custom">Custom water level</option>
-    </select>
-
-    <label>Relative sea level rise</label>
-    <div class="range-value">
-      <span>0 metres</span>
-      <span id="riseLabel">0.40 m</span>
-    </div>
-    <input type="range" id="rise" min="0" max="3" step="0.05" value="0.40">
-
-    <label>Tidal / water-level allowance</label>
-    <div class="range-value">
-      <span>0 m</span>
-      <span id="tideLabel">0.00 m</span>
-    </div>
-    <input type="range" id="tide" min="0" max="2" step="0.05" value="0">
-
-    <label>Additional scenario offset</label>
-    <input type="number" id="offset" min="-2" max="3" step="0.05" value="0">
-
-    <div class="note">
-      Effective threshold = sea level rise + tidal allowance + additional offset.
-      These are adjustable scenario assumptions, not official local projections.
-    </div>
+    <label>Enumeration Area (eaname)</label>
+    <select id="eaSelect"><option value="">All EAs</option></select>
 
     <div class="button-row">
-      <button class="primary" id="runSimulation">Run simulation</button>
-      <button class="secondary" id="resetSimulation">Reset</button>
+      <button id="applyAreaBtn">Apply selection</button>
+      <button class="secondary" id="resetAreaBtn">Reset selection</button>
+    </div>
+    <div class="help">
+      Select an administrative level to restrict the map, indicators,
+      charts and simulation to the matching EA polygons.
+      EA code is retained as feacode.
     </div>
   </div>
 
   <div class="section">
-    <h3>Map visualization</h3>
-
-    <label>Basemap</label>
-    <select id="basemap">
-      <option value="street">OpenStreetMap</option>
-      <option value="satellite">Satellite imagery</option>
-      <option value="topo" selected>Topographic</option>
-    </select>
-
-    <label>Inundation transparency</label>
-    <div class="range-value">
-      <span>Low</span><span id="opacityLabel">65%</span>
-    </div>
-    <input id="opacity" type="range" min="10" max="100" value="65">
-
-    <label>Terrain visualization</label>
-    <div class="checkline">
-      <input type="checkbox" id="showInundation" checked>
-      Show simulated inundation
-    </div>
-    <div class="checkline">
-      <input type="checkbox" id="showBoundaries" checked>
-      Show administrative boundaries
-    </div>
-    <div class="checkline">
-      <input type="checkbox" id="showHillshade">
-      Show terrain hillshade
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>Exposure data</h3>
-    <label>Upload optional population / EA GeoJSON</label>
-    <input type="file" id="eaFile" accept=".geojson,.json"
-      style="font-size:10px;width:100%">
-
-    <div class="note">
-      Upload an EA or settlement GeoJSON containing population and household
-      attributes to estimate exposure. Population is not inferred from terrain.
-    </div>
-
+    <h3>Population &amp; household attributes</h3>
     <label>Population field</label>
-    <input type="text" id="popField" value="sum_pop">
+    <select id="populationField">
+      <option value="">Load EA data first</option>
+    </select>
 
     <label>Household field</label>
-    <input type="text" id="hhField" value="sum_hhs">
+    <select id="householdField">
+      <option value="">Optional</option>
+    </select>
 
-    <label>Feature name field</label>
-    <input type="text" id="nameField" value="eaname">
-
-    <div class="button-row">
-      <button class="secondary" id="loadExposure">Load exposure data</button>
-      <button class="secondary" id="clearExposure">Clear data</button>
+    <div id="populationStatus" class="help">
+      Population and household totals will use the selected source fields.
     </div>
   </div>
 
   <div class="section">
-    <h3>Export results</h3>
-    <div class="button-row">
-      <button class="primary" id="exportCSV">Export CSV</button>
-      <button class="secondary" id="exportGeoJSON">Export AOI</button>
+    <h3>Sea-level scenario</h3>
+    <label>Scenario year</label>
+    <input type="range" id="scenarioYear" min="2026" max="2100" value="2050">
+    <div class="status">Selected year: <strong id="yearLabel">2050</strong></div>
+
+    <label>Sea-level rise rate (mm/year)</label>
+    <select id="riseRate">
+      <option value="3.5">3.5 mm/year — lower scenario</option>
+      <option value="5">5.0 mm/year — intermediate scenario</option>
+      <option value="7">7.0 mm/year — higher scenario</option>
+      <option value="10">10.0 mm/year — stress-test scenario</option>
+      <option value="custom">Custom rate</option>
+    </select>
+
+    <label>Custom rise rate (mm/year)</label>
+    <input type="number" id="customRate" value="5" min="0" max="100" step="0.1">
+
+    <label>Reference year</label>
+    <input type="number" id="baseYear" value="2026" min="1900" max="2100">
+
+    <label>Additional water-level allowance (metres)</label>
+    <input type="number" id="waterAllowance" value="0" min="-2" max="10" step="0.05">
+
+    <label>Additional scenario offset (metres)</label>
+    <input type="number" id="scenarioOffset" value="0" min="-2" max="10" step="0.05">
+
+    <div class="help">
+      The rate is a user-defined scenario assumption, not an official
+      local projection. Allowance and offset are added to the calculated
+      relative water-level threshold.
     </div>
+
     <div class="button-row">
-      <button class="secondary" id="exportExposure">Export exposure</button>
+      <button class="green" id="runBtn">Run simulation</button>
+      <button class="secondary" id="resetSimulationBtn">Reset simulation</button>
     </div>
+    <div id="loading">Processing elevation samples. Please wait...</div>
+    <div id="simulationStatus" class="status">Simulation not yet run.</div>
+  </div>
+
+  <div class="section">
+    <h3>Map display</h3>
+    <label>Basemap</label>
+    <select id="basemap">
+      <option value="street">Street map</option>
+      <option value="satellite">Satellite imagery</option>
+      <option value="terrain">Terrain</option>
+    </select>
+    <label><input type="checkbox" id="showEA" checked style="width:auto"> Show selected EA boundaries</label>
+    <label><input type="checkbox" id="showFlood" checked style="width:auto"> Show simulated inundation</label>
+    <label><input type="checkbox" id="showCentroids" style="width:auto"> Show EA centroids</label>
+  </div>
+
+  <div class="section">
+    <h3>Export</h3>
+    <div class="button-row">
+      <button id="exportCSV">Export statistics CSV</button>
+      <button id="exportGeoJSON" class="secondary">Export selected EAs</button>
+    </div>
+    <button id="exportSimulation" class="orange" style="margin-top:8px">Export simulation grid CSV</button>
   </div>
 </aside>
 
 <!-- CENTRE: MAP -->
 <section class="panel" id="map-panel">
-  <div class="map-heading">
-    <span>02 | INTERACTIVE INUNDATION MAP</span>
-    <span class="badge" id="mapScenario">2050 • MEDIUM</span>
+  <div class="panel-title">02 | INTERACTIVE COASTAL SIMULATION MAP</div>
+  <div class="map-toolbar">
+    <select id="mapView">
+      <option value="all">Selected area</option>
+      <option value="coast">Gambia coastal view</option>
+    </select>
+    <button class="secondary" id="zoomSelected">Zoom to selection</button>
+    <button class="secondary" id="zoomGambia">Gambia extent</button>
   </div>
-
   <div id="map"></div>
-
-  <div class="legend">
-    <strong>MAP LEGEND</strong>
-    <div class="legend-row">
-      <span class="swatch" style="background:#168bd2"></span>
-      Simulated water exposure
-    </div>
-    <div class="legend-row">
-      <span class="swatch" style="background:#e78a25"></span>
-      Administrative boundary
-    </div>
-    <div class="legend-row">
-      <span class="swatch" style="background:#15966a"></span>
-      Selected area boundary
-    </div>
-    <div class="legend-row">
-      <span class="swatch" style="background:#b8c6d5"></span>
-      Terrain / land
-    </div>
-  </div>
-
   <div class="map-footer">
-    <span id="mapStatus">Loading elevation service...</span>
-    <span>WGS84 • EPSG:4326</span>
+    DEM: AWS Terrain-RGB / Terrarium elevation tiles • EA screening:
+    centroid-based • Inundation: elevation-threshold approximation
   </div>
 </section>
 
 <!-- RIGHT: ANALYTICS -->
 <aside class="panel">
-  <div class="panel-title">03 | COASTAL EXPOSURE ANALYTICS</div>
+  <div class="panel-title">03 | SELECTED-AREA ANALYTICS</div>
 
   <div class="section">
-    <h3>Simulation summary</h3>
+    <h3>Selected area indicators</h3>
     <div class="kpis">
-      <div class="kpi">
-        <small>Water threshold</small>
-        <strong id="kpiWater">0.40 m</strong>
-        <em>Above DEM zero datum</em>
-      </div>
-      <div class="kpi">
-        <small>Visible inundated area</small>
-        <strong id="kpiArea">--</strong>
-        <em>km² • visible map tiles</em>
-      </div>
-      <div class="kpi">
-        <small>Terrain samples</small>
-        <strong id="kpiSamples">0</strong>
-        <em>Sampled DEM pixels</em>
-      </div>
-      <div class="kpi">
-        <small>Simulated exposure</small>
-        <strong id="kpiShare">--</strong>
-        <em>Share of sampled land</em>
-      </div>
-    </div>
-    <div class="note">
-      Area statistics represent the currently loaded map tiles and selected
-      area. They are not national exposure totals.
+      <div class="kpi"><div class="name">Enumeration areas</div><div class="value" id="kpiEAs">0</div><div class="unit">EA features</div></div>
+      <div class="kpi"><div class="name">Population</div><div class="value" id="kpiPop">—</div><div class="unit" id="popUnit">Persons</div></div>
+      <div class="kpi"><div class="name">Households</div><div class="value" id="kpiHH">—</div><div class="unit">Households</div></div>
+      <div class="kpi"><div class="name">Total EA area</div><div class="value" id="kpiArea">0</div><div class="unit">km²</div></div>
     </div>
   </div>
 
   <div class="section">
-    <h3>Inundation statistics</h3>
-    <div class="stat-line">
-      <span>Sampled terrain area</span>
-      <strong id="totalArea">--</strong>
-    </div>
-    <div class="stat-line">
-      <span>Potentially inundated area</span>
-      <strong id="floodArea">--</strong>
-    </div>
-    <div class="stat-line">
-      <span>Non-inundated sampled area</span>
-      <strong id="dryArea">--</strong>
-    </div>
-    <div class="stat-line">
-      <span>Selected projection</span>
-      <strong id="selectedYear">2050</strong>
-    </div>
-    <div class="stat-line">
-      <span>Scenario</span>
-      <strong id="selectedScenario">Medium</strong>
-    </div>
-    <div class="stat-line">
-      <span>Loaded EA features</span>
-      <strong id="eaCount">0</strong>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>Scenario comparison</h3>
-    <div class="chart-box">
-      <canvas id="scenarioChart"></canvas>
-    </div>
-    <div class="note">
-      Compares the assumed water-level thresholds. This chart does not
-      represent observed or validated future sea levels.
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>Multiscenario sensitivity</h3>
-    <div class="chart-box">
-      <canvas id="sensitivityChart"></canvas>
-    </div>
-  </div>
-
-  <div class="section">
-    <h3>Exposure assessment</h3>
+    <h3>Sea-level scenario indicators</h3>
     <div class="kpis">
-      <div class="kpi">
-        <small>Potentially exposed population</small>
-        <strong id="exposedPop">--</strong>
-        <em>Persons</em>
-      </div>
-      <div class="kpi">
-        <small>Potentially exposed households</small>
-        <strong id="exposedHH">--</strong>
-        <em>Households</em>
-      </div>
+      <div class="kpi"><div class="name">Calculated rise</div><div class="value" id="kpiRise">0.00</div><div class="unit">Metres</div></div>
+      <div class="kpi"><div class="name">Water threshold</div><div class="value" id="kpiThreshold">0.00</div><div class="unit">Metres</div></div>
+      <div class="kpi"><div class="name">Potentially exposed EAs</div><div class="value" id="kpiExposed">—</div><div class="unit">Centroid screening</div></div>
+      <div class="kpi"><div class="name">Screened population</div><div class="value" id="kpiExposedPop">—</div><div class="unit">People in flagged EAs</div></div>
     </div>
-    <div class="stat-line">
-      <span>Features intersecting simulated water</span>
-      <strong id="exposedFeatures">--</strong>
-    </div>
-    <div class="warning">
-      EA exposure is a screening estimate based on polygon intersection
-      with the simulated water mask. It does not mean that every resident
-      or household within an intersecting EA is flooded.
+    <div class="help">
+      An EA is flagged when its sampled centroid elevation is at or below
+      the scenario threshold. This does not mean the whole EA is flooded.
     </div>
   </div>
 
   <div class="section">
-    <h3>Methodology</h3>
-    <div class="stat-line">
-      <span>Elevation source</span>
-      <strong>Terrarium DEM tiles</strong>
-    </div>
-    <div class="stat-line">
-      <span>Terrain model</span>
-      <strong>Elevation threshold</strong>
-    </div>
-    <div class="stat-line">
-      <span>Inundation type</span>
-      <strong>Bathtub screening</strong>
-    </div>
-    <div class="stat-line">
-      <span>DEM resolution</span>
-      <strong>Zoom dependent</strong>
-    </div>
-    <div class="warning">
-      This model assumes a connected water surface only in a simplified
-      elevation-threshold sense. It does not model hydraulic connectivity,
-      wave propagation, river discharge, erosion, subsidence or drainage.
-      Low elevations alone do not prove flooding.
+    <h3>Population and households</h3>
+    <div class="chart-box"><canvas id="populationChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h3>EA distribution by administrative unit</h3>
+    <div class="chart-box"><canvas id="adminChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h3>Scenario rise over time</h3>
+    <div class="chart-box"><canvas id="scenarioChart"></canvas></div>
+  </div>
+
+  <div class="section">
+    <h3>Elevation screening summary</h3>
+    <div class="chart-box"><canvas id="exposureChart"></canvas></div>
+    <div id="exposureNote" class="help">Run the simulation to calculate the screening summary.</div>
+  </div>
+
+  <div class="section">
+    <h3>Selected area summary</h3>
+    <table>
+      <tbody id="summaryTable">
+        <tr><td>Selection</td><td>All loaded areas</td></tr>
+        <tr><td>Population field</td><td>Not selected</td></tr>
+        <tr><td>Household field</td><td>Not selected</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h3>Map legend</h3>
+    <div class="legend-item"><span class="swatch" style="background:#2476b8"></span> Selected EA boundaries</div>
+    <div class="legend-item"><span class="swatch" style="background:#e63b3b"></span> Simulated inundation screening</div>
+    <div class="legend-item"><span class="swatch" style="background:#f0a52c"></span> Potentially exposed EA centroid</div>
+  </div>
+
+  <div class="section">
+    <h3>Methodology &amp; limitations</h3>
+    <div class="help">
+      1. EA polygons are filtered using the actual supplied attributes.<br><br>
+      2. Population and household totals are calculated from the selected
+      source attributes, where available.<br><br>
+      3. A DEM is sampled across the selected geography. Terrarium RGB
+      values are decoded to elevation values.<br><br>
+      4. Grid cells with elevation at or below the scenario threshold are
+      highlighted as potentially inundated.<br><br>
+      5. EA centroid elevation is used for a basic EA screening indicator.
+      Population in flagged EAs is not a count of people actually flooded.<br><br>
+      This is not a hydraulic or hydrodynamic model. It does not simulate
+      wave action, river discharge, tidal propagation, drainage,
+      embankments, coastal barriers, erosion, subsidence or connectivity
+      to the sea. DEM vertical datum and baseline water-level compatibility
+      must be verified before interpreting absolute elevations.
     </div>
   </div>
 
-  <div class="footer">
+  <div class="credit">
     <strong>Produced by Ansu Singhateh</strong><br>
     GIS Analyst | GIS / Cartography Unit | Gambia Bureau of Statistics<br>
     GBoS GEOAI • Research and educational use
@@ -515,940 +373,1037 @@ button {
 
 <script>
 /* ============================================================
-   GBoS GEOAI | GAMBIAN SEA LEVEL RISE SIMULATION
-   Terrain screening using AWS Terrarium elevation tiles.
+   GBoS GEOAI | GAMBIA SEA LEVEL RISE INTELLIGENCE
+   EA data: GeoJSON or Esri JSON
+   Administrative attributes:
+   RCO, lganame, distname, wardname, feacode, eaname, Area_sqkm
    ============================================================ */
 
 const $ = id => document.getElementById(id);
 
-const GAMBIA_BOUNDS = [
-  [13.0, -17.1],
-  [13.9, -13.7]
-];
+let allFeatures = [];
+let selectedFeatures = [];
+let simulationFeatures = [];
+let simulationCells = [];
+let eaLayer = null;
+let centroidLayer = null;
+let floodLayer = null;
+let activeBasemap = null;
+let charts = {};
+let simulationHasRun = false;
+
+const GAMBIA_BOUNDS = L.latLngBounds(
+  [13.00, -16.85],
+  [13.90, -13.75]
+);
 
 const map = L.map('map', {
   zoomControl:true,
-  preferCanvas:true,
-  maxZoom:15
-}).setView([13.45,-15.5],8);
+  preferCanvas:true
+}).setView([13.45, -16.1], 8);
 
-const baseLayers = {
-  street: L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {maxZoom:19, attribution:'© OpenStreetMap'}
-  ),
+const basemaps = {
+  street: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    maxZoom:19,attribution:'© OpenStreetMap'
+  }),
   satellite: L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    {maxZoom:19, attribution:'© Esri'}
+    {maxZoom:19,attribution:'© Esri'}
   ),
-  topo: L.tileLayer(
+  terrain: L.tileLayer(
     'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-    {maxZoom:17, attribution:'© OpenTopoMap'}
+    {maxZoom:17,attribution:'© OpenTopoMap'}
   )
 };
 
-let currentBase = baseLayers.topo.addTo(map);
-map.setMaxBounds([
-  [12.5,-18.0],
-  [14.5,-13.0]
-]);
+function setBasemap(name){
+  if(activeBasemap) map.removeLayer(activeBasemap);
+  activeBasemap = basemaps[name] || basemaps.street;
+  activeBasemap.addTo(map);
+}
+setBasemap('street');
 
-let adminData = {
-  adm1:null, adm2:null, adm3:null
-};
+/* -------------------- GENERAL HELPERS -------------------- */
 
-let adminLayers = [];
-let selectedGeometry = null;
-let selectedBoundary = null;
-let selectedLevel = null;
-let eaData = null;
-let eaLayer = null;
-let exposureResults = [];
-let activeScenario = 'medium';
+function esc(value){
+  return String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
 
-let tileStats = new Map();
-let simulationLayer = null;
-let hillshadeLayer = null;
+function prop(feature,key){
+  const p = feature && feature.properties ? feature.properties : {};
+  if(Object.prototype.hasOwnProperty.call(p,key)) return p[key];
+  const actual = Object.keys(p).find(k => k.toLowerCase() === key.toLowerCase());
+  return actual ? p[actual] : null;
+}
 
-let totalFloodArea = 0;
-let totalSampleArea = 0;
-let totalSamples = 0;
+function numeric(value){
+  if(value === null || value === undefined || value === '') return null;
+  const n = Number(String(value).replace(/,/g,''));
+  return Number.isFinite(n) ? n : null;
+}
 
-const SCENARIOS = {
-  low: {
-    2030:0.12, 2050:0.22, 2075:0.35, 2100:0.45
-  },
-  medium: {
-    2030:0.15, 2050:0.40, 2075:0.65, 2100:0.85
-  },
-  high: {
-    2030:0.20, 2050:0.55, 2075:1.00, 2100:1.30
-  }
-};
+function sumField(features,field){
+  if(!field) return null;
+  let total=0, found=false;
+  features.forEach(f=>{
+    const n=numeric(prop(f,field));
+    if(n!==null){total+=n;found=true;}
+  });
+  return found ? total : null;
+}
 
-function fmt(n,d=2) {
-  if (!Number.isFinite(n)) return '--';
-  return n.toLocaleString('en-US',{
-    maximumFractionDigits:d
+function fmt(value,digits=0){
+  if(value===null || value===undefined || !Number.isFinite(Number(value))) return '—';
+  return Number(value).toLocaleString('en-US',{
+    maximumFractionDigits:digits,
+    minimumFractionDigits:digits
   });
 }
 
-function effectiveLevel() {
-  return Math.max(
-    -2,
-    Number($('rise').value) +
-    Number($('tide').value) +
-    Number($('offset').value || 0)
-  );
+function uniqueValues(features,key){
+  return [...new Set(features.map(f=>{
+    const v=prop(f,key);
+    return v===null || v===undefined ? '' : String(v).trim();
+  }).filter(v=>v!=='')].sort((a,b)=>a.localeCompare(b));
 }
 
-function getRise() {
-  return Number($('rise').value);
-}
-
-function updateLabels() {
-  $('riseLabel').textContent = fmt(getRise())+' m';
-  $('tideLabel').textContent =
-    fmt(Number($('tide').value))+' m';
-  $('opacityLabel').textContent =
-    $('opacity').value+'%';
-  $('kpiWater').textContent =
-    fmt(effectiveLevel())+' m';
-  $('mapScenario').textContent =
-    $('year').value+' • '+$('scenario').value.toUpperCase();
-  $('selectedYear').textContent = $('year').value;
-  $('selectedScenario').textContent =
-    $('scenario').value.toUpperCase();
-}
-
-function updateCharts() {
-  const y = $('year').value;
-  const offset = Number($('tide').value) +
-                 Number($('offset').value || 0);
-
-  scenarioChart.data.datasets[0].data = [
-    SCENARIOS.low[y]+offset,
-    SCENARIOS.medium[y]+offset,
-    SCENARIOS.high[y]+offset
-  ];
-  scenarioChart.update();
-
-  sensitivityChart.data.datasets[0].data =
-    [0,0.25,0.5,0.75,1,1.5,2,2.5,3]
-      .map(v => v + offset);
-  sensitivityChart.update();
-}
-
-const scenarioChart = new Chart(
-  $('scenarioChart'), {
-    type:'bar',
-    data:{
-      labels:['Low','Medium','High'],
-      datasets:[{
-        label:'Water level (m)',
-        data:[0.22,0.40,0.55],
-        backgroundColor:['#5a9e9a','#278bc2','#df8d38'],
-        borderRadius:4
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        title:{display:true,text:'Assumed scenario thresholds'},
-      },
-      scales:{
-        y:{beginAtZero:true,title:{
-          display:true,text:'Metres'
-        }},
-        x:{grid:{display:false}}
-      }
-    }
-  }
-);
-
-const sensitivityChart = new Chart(
-  $('sensitivityChart'), {
-    type:'line',
-    data:{
-      labels:['0','0.25','0.5','0.75','1','1.5','2','2.5','3'],
-      datasets:[{
-        label:'Threshold (m)',
-        data:[0,0.25,0.5,0.75,1,1.5,2,2.5,3],
-        borderColor:'#168bd2',
-        backgroundColor:'rgba(22,139,210,.12)',
-        fill:true,
-        tension:.25
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        y:{beginAtZero:true,title:{
-          display:true,text:'Metres'
-        }}
-      }
-    }
-  }
-);
-
-function setScenario() {
-  const year = $('year').value;
-  const scenario = $('scenario').value;
-
-  if (scenario !== 'custom') {
-    $('rise').value = SCENARIOS[scenario][year];
-  }
-
-  updateLabels();
-  updateCharts();
-}
-
-$('scenario').addEventListener('change',setScenario);
-$('year').addEventListener('change',setScenario);
-
-$('rise').addEventListener('input',()=>{
-  $('scenario').value='custom';
-  updateLabels();
-  updateCharts();
-});
-
-$('tide').addEventListener('input',()=>{
-  updateLabels();
-  updateCharts();
-});
-
-$('offset').addEventListener('input',()=>{
-  updateLabels();
-  updateCharts();
-});
-
-$('opacity').addEventListener('input',()=>{
-  updateLabels();
-  if (simulationLayer) {
-    simulationLayer.setOpacity(
-      Number($('opacity').value)/100
-    );
-  }
-});
-
-/* ============================================================
-   ADMINISTRATIVE BOUNDARIES
-   GeoBoundaries API: Gambia ADM1, ADM2 and ADM3.
-   ============================================================ */
-
-async function loadBoundary(level) {
-  const url =
-    `https://www.geoboundaries.org/api/current/gbOpen/GMB/${level}/`;
-
-  const response = await fetch(url);
-  if (!response.ok) throw new Error('Boundary API unavailable');
-
-  const metadata = await response.json();
-  const downloadURL = metadata.gjDownloadURL ||
-                      metadata.downloadURL;
-
-  if (!downloadURL) throw new Error('No GeoJSON download URL');
-
-  const geoResponse = await fetch(downloadURL);
-  if (!geoResponse.ok) throw new Error('GeoJSON download failed');
-
-  return await geoResponse.json();
-}
-
-function featureName(feature) {
-  const p = feature.properties || {};
-  const candidates = [
-    'shapeName','shapeName_1','NAME_1','NAME_2',
-    'name','NAME','admin','district','region','ward'
-  ];
-
-  for (const key of candidates) {
-    if (p[key] !== undefined && p[key] !== null) {
-      return String(p[key]);
-    }
-  }
-  return 'Unnamed administrative unit';
-}
-
-function populateSelect(selectId, features, allText) {
-  const select = $(selectId);
-  const old = select.value;
-  select.innerHTML = `<option value="">${allText}</option>`;
-
-  const names = [...new Set(features.map(featureName))]
-    .sort((a,b)=>a.localeCompare(b));
-
-  names.forEach(name=>{
+function setOptions(select,values,placeholder){
+  const old=select.value;
+  select.innerHTML='';
+  const first=document.createElement('option');
+  first.value='';
+  first.textContent=placeholder;
+  select.appendChild(first);
+  values.forEach(value=>{
     const option=document.createElement('option');
-    option.value=name;
-    option.textContent=name;
+    option.value=value;
+    option.textContent=value;
     select.appendChild(option);
   });
-
-  if (names.includes(old)) select.value=old;
+  if(values.includes(old)) select.value=old;
 }
 
-function filterFeatures(features, parentLevel, parentName) {
-  if (!parentName) return features;
-
-  const parentFeatures = adminData[parentLevel]?.features || [];
-  const parent = parentFeatures.find(
-    f=>featureName(f)===parentName
-  );
-  if (!parent) return features;
-
-  const parentGeom = parent.geometry;
-
-  return features.filter(f=>{
-    try {
-      return turf.booleanIntersects(
-        f.geometry,parentGeom
-      );
-    } catch(e) {return false;}
-  });
+function setStatus(id,message,type=''){
+  const el=$(id);
+  el.textContent=message;
+  el.className='status'+(type?' '+type:'');
 }
 
-function drawAdmin() {
-  adminLayers.forEach(layer=>map.removeLayer(layer));
-  adminLayers=[];
+function getRate(){
+  const value=$('riseRate').value;
+  return value==='custom'
+    ? Math.max(0,numeric($('customRate').value) || 0)
+    : Number(value);
+}
 
-  if (!$('showBoundaries').checked) return;
+function getScenario(){
+  const year=Number($('scenarioYear').value);
+  const baseYear=Number($('baseYear').value);
+  const rate=getRate();
+  const years=Math.max(0,year-baseYear);
+  const rise=years*rate/1000;
+  const allowance=numeric($('waterAllowance').value)||0;
+  const offset=numeric($('scenarioOffset').value)||0;
+  return {
+    year,baseYear,rate,rise,allowance,offset,
+    threshold:rise+allowance+offset
+  };
+}
 
-  const collections = [
-    {key:'adm1',color:'#e78a25',weight:1.5},
-    {key:'adm2',color:'#6e7f94',weight:1},
-    {key:'adm3',color:'#a4b0bd',weight:.7}
-  ];
+/* -------------------- ESRI JSON / GEOJSON -------------------- */
 
-  collections.forEach(item=>{
-    const data=adminData[item.key];
-    if (!data) return;
+function webMercatorToWgs84(x,y){
+  const lon=x/20037508.34*180;
+  let lat=y/20037508.34*180;
+  lat=180/Math.PI*(2*Math.atan(Math.exp(lat*Math.PI/180))-Math.PI/2);
+  return [lon,lat];
+}
 
-    let features=data.features || [];
-
-    if (selectedLevel==='adm1' && item.key!=='adm1') {
-      features=filterFeatures(
-        features,'adm1',$('region').value
-      );
+function esriRingsToGeometry(rings,spatialReference){
+  const wkid=spatialReference?.latestWkid || spatialReference?.wkid || 4326;
+  const project=coord=>{
+    if(wkid===3857 || wkid===102100 || wkid===102113){
+      return webMercatorToWgs84(Number(coord[0]),Number(coord[1]));
     }
+    return [Number(coord[0]),Number(coord[1])];
+  };
 
-    if (selectedLevel==='adm2' && item.key==='adm3') {
-      features=filterFeatures(
-        features,'adm1',$('region').value
-      );
-      features=filterFeatures(
-        features,'adm2',$('district').value
-      );
-    }
+  const converted=rings.map(ring=>ring.map(project));
+  if(!converted.length) return null;
 
-    const layer=L.geoJSON({
-      type:'FeatureCollection',features
-    },{
-      style:{
-        color:item.color,
-        weight:item.weight,
-        fillOpacity:0,
-        opacity:.85
-      }
-    }).addTo(map);
-
-    adminLayers.push(layer);
+  const groups=[];
+  converted.forEach(ring=>{
+    if(ring.length<4) return;
+    const polygon=turf.polygon([ring]);
+    const area=Math.abs(turf.area(polygon));
+    groups.push({ring,area,polygon});
   });
 
-  if (selectedGeometry) {
-    selectedBoundary=L.geoJSON(selectedGeometry,{
-      style:{
-        color:'#15966a',weight:3,
-        fillColor:'#15966a',fillOpacity:.035
-      }
-    }).addTo(map);
-    adminLayers.push(selectedBoundary);
-  }
-}
+  groups.sort((a,b)=>b.area-a.area);
+  const polygons=[];
 
-async function initialiseBoundaries() {
-  $('mapStatus').textContent='Loading administrative boundaries...';
-
-  const levels=['ADM1','ADM2','ADM3'];
-
-  for (const level of levels) {
-    const key=level.toLowerCase();
-
-    try {
-      adminData[key]=await loadBoundary(level);
-    } catch(err) {
-      console.warn(level,err);
-      adminData[key]=null;
+  groups.forEach((item,index)=>{
+    let container=null;
+    let containerArea=Infinity;
+    for(let i=0;i<index;i++){
+      const candidate=groups[i];
+      try{
+        if(turf.booleanPointInPolygon(
+          turf.point(item.ring[0]),candidate.polygon
+        ) && candidate.area<containerArea){
+          container=i;
+          containerArea=candidate.area;
+        }
+      }catch(e){}
     }
-  }
+    if(container===null){
+      polygons.push([item.ring]);
+    }else{
+      const target=polygons.find(p=>p[0]===groups[container].ring);
+      if(target) target.push(item.ring);
+      else{
+        const owner=polygons.find(p=>p[0]===groups[container].ring);
+        if(owner) owner.push(item.ring);
+      }
+    }
+  });
 
-  if (adminData.adm1) {
-    populateSelect('region',adminData.adm1.features,'All regions');
-  }
-
-  if (adminData.adm2) {
-    populateSelect('district',adminData.adm2.features,'All districts');
-  }
-
-  if (adminData.adm3) {
-    populateSelect('ward',adminData.adm3.features,'All available units');
-  }
-
-  drawAdmin();
-  $('mapStatus').textContent='Map ready • DEM tiles load on demand';
+  if(!polygons.length) return null;
+  if(polygons.length===1) return {type:'Polygon',coordinates:polygons[0]};
+  return {type:'MultiPolygon',coordinates:polygons};
 }
 
-function applyArea() {
-  let feature=null;
+function convertEsri(data){
+  const sr=data.spatialReference || {};
+  const features=(data.features||[]).map(item=>{
+    if(!item.geometry) return null;
+    let geometry=null;
+    if(item.geometry.rings){
+      geometry=esriRingsToGeometry(item.geometry.rings,
+        item.geometry.spatialReference || sr);
+    }else if(item.geometry.x!==undefined && item.geometry.y!==undefined){
+      let coords=[item.geometry.x,item.geometry.y];
+      const wkid=(item.geometry.spatialReference||sr).wkid;
+      if(wkid===3857 || wkid===102100 || wkid===102113){
+        coords=webMercatorToWgs84(coords[0],coords[1]);
+      }
+      geometry={type:'Point',coordinates:coords};
+    }
+    if(!geometry) return null;
+    return {type:'Feature',geometry,properties:item.attributes||{}};
+  }).filter(Boolean);
 
-  if ($('ward').value && adminData.adm3) {
-    feature=adminData.adm3.features.find(
-      f=>featureName(f)===$('ward').value
-    );
-    selectedLevel='adm3';
-  } else if ($('district').value && adminData.adm2) {
-    feature=adminData.adm2.features.find(
-      f=>featureName(f)===$('district').value
-    );
-    selectedLevel='adm2';
-  } else if ($('region').value && adminData.adm1) {
-    feature=adminData.adm1.features.find(
-      f=>featureName(f)===$('region').value
-    );
-    selectedLevel='adm1';
-  } else {
-    resetArea();
-    return;
+  return {type:'FeatureCollection',features};
+}
+
+function normalizeData(data){
+  if(data.type==='FeatureCollection') return data;
+  if(data.type==='Feature') return {
+    type:'FeatureCollection',features:[data]
+  };
+  if(Array.isArray(data.features) && data.features[0]?.attributes){
+    return convertEsri(data);
   }
-
-  if (!feature) {
-    alert('Selected administrative geometry is unavailable.');
-    return;
+  if(Array.isArray(data.features)){
+    return {type:'FeatureCollection',features:data.features};
   }
-
-  selectedGeometry=feature.geometry;
-  drawAdmin();
-
-  const bounds=L.geoJSON(feature).getBounds();
-  if (bounds.isValid()) map.fitBounds(bounds,{padding:[25,25]});
-
-  refreshSimulation();
+  throw new Error('Unsupported data structure. Please use GeoJSON FeatureCollection or Esri JSON.');
 }
 
-function resetArea() {
-  $('region').value='';
-  $('district').value='';
-  $('ward').value='';
-  selectedGeometry=null;
-  selectedLevel=null;
-  if (selectedBoundary) map.removeLayer(selectedBoundary);
-  selectedBoundary=null;
-  drawAdmin();
-  map.fitBounds(GAMBIA_BOUNDS);
-  refreshSimulation();
-}
-
-$('region').addEventListener('change',()=>{
-  const features=filterFeatures(
-    adminData.adm2?.features || [],
-    'adm1',$('region').value
-  );
-  populateSelect('district',features,'All districts');
-  $('ward').innerHTML='<option value="">All available units</option>';
-});
-
-$('district').addEventListener('change',()=>{
-  let features=filterFeatures(
-    adminData.adm3?.features || [],
-    'adm1',$('region').value
-  );
-  features=filterFeatures(
-    features,'adm2',$('district').value
-  );
-  populateSelect('ward',features,'All available units');
-});
-
-$('applyArea').addEventListener('click',applyArea);
-$('resetArea').addEventListener('click',resetArea);
-
-/* ============================================================
-   TERRARIUM DEM
-   Elevation = (R*256 + G + B/256) - 32768 metres
-   Source: AWS elevation-tiles-prod / Terrarium encoding.
-   ============================================================ */
-
-function tileToLatLng(x,y,z,px,py) {
-  return map.unproject([
-    x*256+px,
-    y*256+py
-  ],z);
-}
-
-function pointInSelectedArea(latlng) {
-  if (!selectedGeometry) return true;
-
-  try {
-    return turf.booleanPointInPolygon(
-      turf.point([latlng.lng,latlng.lat]),
-      selectedGeometry
+function loadFeatureCollection(data,sourceName='uploaded file'){
+  try{
+    const normalized=normalizeData(data);
+    allFeatures=normalized.features.filter(f=>
+      f && f.geometry && ['Polygon','MultiPolygon'].includes(f.geometry.type)
     );
-  } catch(e) {
+
+    if(!allFeatures.length) throw new Error('No polygon EA features were found.');
+
+    const required=['RCO','lganame','distname','wardname','feacode','eaname','Area_sqkm'];
+    const first=allFeatures[0].properties||{};
+    const missing=required.filter(k=>!Object.keys(first).some(
+      p=>p.toLowerCase()===k.toLowerCase()
+    ));
+
+    buildFieldSelectors();
+    refreshAdministrativeSelectors();
+    applySelection();
+    map.fitBounds(GAMBIA_BOUNDS);
+
+    const note=missing.length
+      ? ' Some expected attributes were not found: '+missing.join(', ')+'.'
+      : ' All seven requested administrative/area attributes are present.';
+
+    setStatus('dataStatus',
+      `${allFeatures.length.toLocaleString()} EA polygon features loaded from ${sourceName}.${note}`,
+      'success'
+    );
+    return true;
+  }catch(error){
+    setStatus('dataStatus','Data loading error: '+error.message,'error');
     return false;
   }
 }
 
-function makeSimulationLayer() {
-  if (simulationLayer) map.removeLayer(simulationLayer);
+/* -------------------- LOAD DATA -------------------- */
 
-  tileStats.clear();
-
-  const layer=L.GridLayer.extend({
-    createTile:function(coords,done) {
-      const canvas=document.createElement('canvas');
-      canvas.width=256;
-      canvas.height=256;
-
-      const ctx=canvas.getContext('2d');
-      const key=`${coords.z}/${coords.x}/${coords.y}`;
-
-      const img=new Image();
-      img.crossOrigin='anonymous';
-
-      img.onload=()=>{
-        try {
-          ctx.drawImage(img,0,0,256,256);
-
-          const imageData=ctx.getImageData(0,0,256,256);
-          const pixels=imageData.data;
-
-          const threshold=effectiveLevel();
-          const step=4;
-
-          let floodArea=0;
-          let sampledArea=0;
-          let samples=0;
-          let flooded=0;
-
-          const sampleSize=step*step;
-
-          for(let py=0;py<256;py+=step) {
-            for(let px=0;px<256;px+=step) {
-              const index=(py*256+px)*4;
-
-              const r=pixels[index];
-              const g=pixels[index+1];
-              const b=pixels[index+2];
-              const alpha=pixels[index+3];
-
-              if(alpha===0) continue;
-
-              const elevation=
-                (r*256+g+b/256)-32768;
-
-              const latlng=tileToLatLng(
-                coords.x,coords.y,coords.z,
-                px+step/2,py+step/2
-              );
-
-              if(!pointInSelectedArea(latlng)) continue;
-
-              const metresPerPixel=
-                156543.03392*
-                Math.cos(latlng.lat*Math.PI/180)/
-                Math.pow(2,coords.z);
-
-              const sampleArea=
-                metresPerPixel*metresPerPixel*sampleSize;
-
-              sampledArea+=sampleArea;
-              samples++;
-
-              if(elevation<=threshold) {
-                flooded++;
-                floodArea+=sampleArea;
-
-                ctx.fillStyle='rgba(16,139,210,.88)';
-                ctx.fillRect(px,py,step,step);
-              }
-            }
-          }
-
-          tileStats.set(key,{
-            floodArea,sampledArea,samples,flooded
-          });
-
-          updateMapStatistics();
-          done(null,canvas);
-
-        } catch(err) {
-          console.warn('DEM tile processing error',err);
-          done(err,canvas);
-        }
-      };
-
-      img.onerror=()=>{
-        tileStats.delete(key);
-        done(new Error('DEM tile unavailable'),canvas);
-      };
-
-      img.src=
-        `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${coords.z}/${coords.x}/${coords.y}.png`;
-
-      return canvas;
-    }
-  });
-
-  simulationLayer=new layer({
-    tileSize:256,
-    opacity:Number($('opacity').value)/100,
-    updateWhenIdle:true,
-    keepBuffer:1,
-    maxZoom:15,
-    zIndex:450
-  });
-
-  if ($('showInundation').checked) {
-    simulationLayer.addTo(map);
-  }
-}
-
-function updateMapStatistics() {
-  totalFloodArea=0;
-  totalSampleArea=0;
-  totalSamples=0;
-
-  tileStats.forEach(s=>{
-    totalFloodArea+=s.floodArea;
-    totalSampleArea+=s.sampledArea;
-    totalSamples+=s.samples;
-  });
-
-  const floodKm=totalFloodArea/1e6;
-  const totalKm=totalSampleArea/1e6;
-  const dryKm=Math.max(0,totalKm-floodKm);
-  const share=totalKm>0?100*floodKm/totalKm:0;
-
-  $('kpiArea').textContent=fmt(floodKm)+' km²';
-  $('kpiSamples').textContent=fmt(totalSamples,0);
-  $('kpiShare').textContent=fmt(share)+'%';
-
-  $('totalArea').textContent=fmt(totalKm)+' km²';
-  $('floodArea').textContent=fmt(floodKm)+' km²';
-  $('dryArea').textContent=fmt(dryKm)+' km²';
-
-  $('mapStatus').textContent=
-    `DEM sampled • ${fmt(totalSamples,0)} samples • ${fmt(floodKm)} km² indicative inundation`;
-}
-
-/* ============================================================
-   SIMULATION CONTROL
-   ============================================================ */
-
-function refreshSimulation() {
-  updateLabels();
-  updateCharts();
-  makeSimulationLayer();
-  updateExposure();
-}
-
-$('runSimulation').addEventListener('click',refreshSimulation);
-
-$('resetSimulation').addEventListener('click',()=>{
-  $('year').value='2050';
-  $('scenario').value='medium';
-  $('rise').value='0.40';
-  $('tide').value='0';
-  $('offset').value='0';
-  $('opacity').value='65';
-  updateLabels();
-  refreshSimulation();
-});
-
-$('showInundation').addEventListener('change',()=>{
-  if ($('showInundation').checked) {
-    if (!simulationLayer) makeSimulationLayer();
-    else if (!map.hasLayer(simulationLayer)) {
-      simulationLayer.addTo(map);
-    }
-  } else if (simulationLayer) {
-    map.removeLayer(simulationLayer);
+$('fileInput').addEventListener('change',async event=>{
+  const file=event.target.files[0];
+  if(!file) return;
+  try{
+    const data=JSON.parse(await file.text());
+    loadFeatureCollection(data,file.name);
+  }catch(error){
+    setStatus('dataStatus','Could not read file: '+error.message,'error');
   }
 });
 
-$('showBoundaries').addEventListener('change',drawAdmin);
-
-$('basemap').addEventListener('change',()=>{
-  map.removeLayer(currentBase);
-  currentBase=baseLayers[$('basemap').value];
-  currentBase.addTo(map);
-  currentBase.bringToBack();
-});
-
-$('showHillshade').addEventListener('change',()=>{
-  if ($('showHillshade').checked) {
-    if (!hillshadeLayer) {
-      hillshadeLayer=L.tileLayer(
-        'https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}',
-        {opacity:.45,maxZoom:16}
-      );
-    }
-    hillshadeLayer.addTo(map);
-  } else if (hillshadeLayer) {
-    map.removeLayer(hillshadeLayer);
-  }
-});
-
-map.on('moveend zoomend',()=>{
-  if (simulationLayer && map.hasLayer(simulationLayer)) {
-    tileStats.clear();
-    updateMapStatistics();
-  }
-});
-
-/* ============================================================
-   OPTIONAL POPULATION / HOUSEHOLD EXPOSURE
-   ============================================================ */
-
-$('eaFile').addEventListener('change',async e=>{
-  const file=e.target.files[0];
-  if (!file) return;
-
-  try {
-    const text=await file.text();
-    eaData=JSON.parse(text);
-
-    if (!eaData.features) {
-      throw new Error('Expected a GeoJSON FeatureCollection');
-    }
-
-    $('eaCount').textContent=fmt(eaData.features.length,0);
-    loadExposureLayer();
-  } catch(err) {
-    alert('Invalid GeoJSON: '+err.message);
-  }
-});
-
-function loadExposureLayer() {
-  if (eaLayer) map.removeLayer(eaLayer);
-  if (!eaData) return;
-
-  eaLayer=L.geoJSON(eaData,{
-    style:{
-      color:'#596d82',
-      weight:.5,
-      fillColor:'#8cabc4',
-      fillOpacity:.04
-    },
-    onEachFeature:(feature,layer)=>{
-      const p=feature.properties || {};
-      const name=p[$('nameField').value] || 'Feature';
-      const pop=Number(p[$('popField').value]) || 0;
-      const hh=Number(p[$('hhField').value]) || 0;
-
-      layer.bindPopup(
-        `<b>${String(name)}</b><br>`+
-        `Population: ${fmt(pop,0)}<br>`+
-        `Households: ${fmt(hh,0)}`
-      );
-    }
-  });
-
-  eaLayer.addTo(map);
-  updateExposure();
-}
-
-$('loadExposure').addEventListener('click',()=>{
-  if (!eaData) {
-    alert('Upload a GeoJSON file first.');
+$('loadUrlBtn').addEventListener('click',async()=>{
+  const url=$('dataUrl').value.trim();
+  if(!url){
+    setStatus('dataStatus','Enter a direct data URL first.','error');
     return;
   }
-  loadExposureLayer();
+  setStatus('dataStatus','Loading EA data from URL...');
+  try{
+    const response=await fetch(url);
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    loadFeatureCollection(data,url);
+  }catch(error){
+    setStatus('dataStatus',
+      'URL loading failed. Check the direct file URL and whether the server allows CORS. '+error.message,
+      'error'
+    );
+  }
 });
 
-$('clearExposure').addEventListener('click',()=>{
-  if (eaLayer) map.removeLayer(eaLayer);
-  eaLayer=null;
-  eaData=null;
-  exposureResults=[];
-  $('eaCount').textContent='0';
-  $('exposedPop').textContent='--';
-  $('exposedHH').textContent='--';
-  $('exposedFeatures').textContent='--';
-  $('eaFile').value='';
-});
+/* -------------------- POPULATION FIELD DETECTION -------------------- */
 
-function updateExposure() {
-  if (!eaData) return;
+function buildFieldSelectors(){
+  const keys=Object.keys(allFeatures[0].properties||{});
+  const numericFields=keys.filter(key=>
+    allFeatures.some(f=>numeric(prop(f,key))!==null)
+  );
 
-  const popField=$('popField').value;
-  const hhField=$('hhField').value;
+  const popPreferred=[
+    'enum_pop','mapping_po','ls_pop','sum_pop','population','pop',
+    'pop_total','total_pop','pop2023','pop_2023'
+  ];
+  const hhPreferred=[
+    'enum_hhs','mapping_hh','ls_hhs','sum_hhs','households',
+    'hh_total','total_hh','hhs'
+  ];
 
-  let exposedPop=0;
-  let exposedHH=0;
-  let exposed=0;
-  exposureResults=[];
+  function ordered(preferred){
+    const found=[];
+    preferred.forEach(name=>{
+      const actual=numericFields.find(k=>k.toLowerCase()===name.toLowerCase());
+      if(actual && !found.includes(actual)) found.push(actual);
+    });
+    numericFields.forEach(k=>{if(!found.includes(k)) found.push(k);});
+    return found;
+  }
 
-  const threshold=effectiveLevel();
+  const popFields=ordered(popPreferred);
+  const hhFields=ordered(hhPreferred);
 
-  eaData.features.forEach(feature=>{
-    if (!feature.geometry) return;
+  setOptions($('populationField'),popFields,'Select population field');
+  setOptions($('householdField'),hhFields,'No household field selected');
 
-    if (selectedGeometry) {
-      try {
-        if (!turf.booleanIntersects(
-          feature.geometry,selectedGeometry
-        )) return;
-      } catch(e) {return;}
+  const defaultPop=popPreferred.map(n=>
+    popFields.find(k=>k.toLowerCase()===n.toLowerCase())
+  ).find(Boolean);
+  const defaultHH=hhPreferred.map(n=>
+    hhFields.find(k=>k.toLowerCase()===n.toLowerCase())
+  ).find(Boolean);
+
+  if(defaultPop) $('populationField').value=defaultPop;
+  if(defaultHH) $('householdField').value=defaultHH;
+
+  $('populationStatus').textContent =
+    popFields.length
+      ? 'Detected numeric attributes: '+popFields.join(', ')+
+        '. Select the field representing your preferred population measure.'
+      : 'No numeric population field was detected. The dashboard will show EA counts and area only.';
+
+  $('populationField').addEventListener('change',updateAnalytics);
+  $('householdField').addEventListener('change',updateAnalytics);
+}
+
+/* -------------------- ADMINISTRATIVE SELECTORS -------------------- */
+
+function refreshAdministrativeSelectors(){
+  const region=$('regionSelect').value;
+  const lga=$('lgaSelect').value;
+  const district=$('districtSelect').value;
+  const ward=$('wardSelect').value;
+
+  const regionFeatures=allFeatures;
+  setOptions($('regionSelect'),uniqueValues(regionFeatures,'RCO'),'All regions');
+
+  const byRegion=allFeatures.filter(f=>!region || String(prop(f,'RCO'))===region);
+  setOptions($('lgaSelect'),uniqueValues(byRegion,'lganame'),'All LGAs');
+
+  const lgaValue=byRegion.filter(f=>!lga || String(prop(f,'lganame'))===lga);
+  setOptions($('districtSelect'),uniqueValues(lgaValue,'distname'),'All districts');
+
+  const districtValue=lgaValue.filter(f=>!district || String(prop(f,'distname'))===district);
+  setOptions($('wardSelect'),uniqueValues(districtValue,'wardname'),'All wards');
+
+  const wardValue=districtValue.filter(f=>!ward || String(prop(f,'wardname'))===ward);
+  setOptions($('eaSelect'),uniqueValues(wardValue,'eaname'),'All EAs');
+
+  if(region) $('regionSelect').value=region;
+  if(lga) $('lgaSelect').value=lga;
+  if(district) $('districtSelect').value=district;
+  if(ward) $('wardSelect').value=ward;
+}
+
+['regionSelect','lgaSelect','districtSelect','wardSelect'].forEach(id=>{
+  $(id).addEventListener('change',()=>{
+    if(id==='regionSelect'){
+      $('lgaSelect').value='';
+      $('districtSelect').value='';
+      $('wardSelect').value='';
+      $('eaSelect').value='';
     }
+    if(id==='lgaSelect'){
+      $('districtSelect').value='';
+      $('wardSelect').value='';
+      $('eaSelect').value='';
+    }
+    if(id==='districtSelect'){
+      $('wardSelect').value='';
+      $('eaSelect').value='';
+    }
+    if(id==='wardSelect') $('eaSelect').value='';
+    refreshAdministrativeSelectors();
+  });
+});
 
-    try {
-      const centroid=turf.centroid(feature);
-      const pt=centroid.geometry.coordinates;
+function getFilteredFeatures(){
+  const region=$('regionSelect').value;
+  const lga=$('lgaSelect').value;
+  const district=$('districtSelect').value;
+  const ward=$('wardSelect').value;
+  const ea=$('eaSelect').value;
 
-      // DEM sample at centroid, at an appropriate map zoom.
-      const z=12;
-      const worldX=(pt[0]+180)/360*Math.pow(2,z);
-      const worldY=
-        (1-Math.asinh(Math.tan(pt[1]*Math.PI/180))/Math.PI)
-        /2*Math.pow(2,z);
+  return allFeatures.filter(f=>
+    (!region || String(prop(f,'RCO'))===region) &&
+    (!lga || String(prop(f,'lganame'))===lga) &&
+    (!district || String(prop(f,'distname'))===district) &&
+    (!ward || String(prop(f,'wardname'))===ward) &&
+    (!ea || String(prop(f,'eaname'))===ea)
+  );
+}
 
-      const tx=Math.floor(worldX);
-      const ty=Math.floor(worldY);
-      const px=Math.floor((worldX-tx)*256);
-      const py=Math.floor((worldY-ty)*256);
+function selectionLabel(){
+  const parts=[
+    $('regionSelect').value,
+    $('lgaSelect').value,
+    $('districtSelect').value,
+    $('wardSelect').value,
+    $('eaSelect').value
+  ].filter(Boolean);
+  return parts.length ? parts.join(' / ') : 'The Gambia — all loaded EAs';
+}
 
-      // Centroid assessment is an indicative screening only.
-      const key=`${z}/${tx}/${ty}`;
-      const pop=Number(feature.properties?.[popField])||0;
-      const hh=Number(feature.properties?.[hhField])||0;
+function applySelection(){
+  selectedFeatures=getFilteredFeatures();
+  simulationHasRun=false;
+  simulationFeatures=[];
+  simulationCells=[];
+  clearSimulationLayers();
+  renderEALayer();
+  updateAnalytics();
 
-      // Do not classify exposure without a valid DEM sample.
-      const item={
-        feature,
-        name:feature.properties?.[$('nameField').value]||'EA',
-        pop,hh,
-        centroid:pt,
-        exposed:false,
-        elevation:null
-      };
+  if(selectedFeatures.length){
+    const layer=L.geoJSON({
+      type:'FeatureCollection',features:selectedFeatures
+    });
+    const bounds=layer.getBounds();
+    if(bounds.isValid()) map.fitBounds(bounds.pad(.08));
+  }
+  setStatus('simulationStatus','Selection updated. Run the simulation to calculate exposure.');
+}
 
-      exposureResults.push(item);
+$('applyAreaBtn').addEventListener('click',applySelection);
+$('resetAreaBtn').addEventListener('click',()=>{
+  ['regionSelect','lgaSelect','districtSelect','wardSelect','eaSelect'].forEach(id=>$(id).value='');
+  refreshAdministrativeSelectors();
+  applySelection();
+});
 
-    } catch(e) {
-      console.warn(e);
+/* -------------------- MAP LAYERS -------------------- */
+
+function renderEALayer(){
+  if(eaLayer) map.removeLayer(eaLayer);
+  if(centroidLayer) map.removeLayer(centroidLayer);
+
+  eaLayer=L.geoJSON({
+    type:'FeatureCollection',features:selectedFeatures
+  },{
+    style:()=>({
+      color:'#1769aa',weight:1,opacity:.85,
+      fillColor:'#48a4d8',fillOpacity:.09
+    }),
+    onEachFeature:(feature,layer)=>{
+      const name=prop(feature,'eaname')||'Unnamed EA';
+      const code=prop(feature,'feacode')||'Not available';
+      const populationField=$('populationField').value;
+      const householdField=$('householdField').value;
+      const pop=populationField ? prop(feature,populationField) : null;
+      const hh=householdField ? prop(feature,householdField) : null;
+      const area=prop(feature,'Area_sqkm');
+
+      layer.bindPopup(`
+        <strong>${esc(name)}</strong><br>
+        EA code: ${esc(code)}<br>
+        RCO: ${esc(prop(feature,'RCO'))}<br>
+        LGA: ${esc(prop(feature,'lganame'))}<br>
+        District: ${esc(prop(feature,'distname'))}<br>
+        Ward: ${esc(prop(feature,'wardname'))}<br>
+        Population (${esc(populationField||'not selected')}): ${fmt(numeric(pop))}<br>
+        Households (${esc(householdField||'not selected')}): ${fmt(numeric(hh))}<br>
+        Area: ${fmt(numeric(area),3)} km²
+      `);
     }
   });
 
-  $('exposedPop').textContent='Not computed';
-  $('exposedHH').textContent='Not computed';
-  $('exposedFeatures').textContent=
-    exposureResults.length+' intersecting AOI features';
+  if($('showEA').checked) eaLayer.addTo(map);
 
-  // EA centroids are retained for future point-sampling.
-  // A visual polygon intersection alone is not a population exposure estimate.
+  centroidLayer=L.layerGroup();
+  if($('showCentroids').checked){
+    selectedFeatures.forEach(f=>{
+      try{
+        const c=turf.centroid(f).geometry.coordinates;
+        L.circleMarker([c[1],c[0]],{
+          radius:3,color:'#f0a52c',fillColor:'#f0a52c',fillOpacity:.9,weight:1
+        }).bindTooltip(String(prop(f,'eaname')||'EA')).addTo(centroidLayer);
+      }catch(e){}
+    });
+    centroidLayer.addTo(map);
+  }
 }
 
-function downloadFile(content,filename,type) {
+function clearSimulationLayers(){
+  if(floodLayer){map.removeLayer(floodLayer);floodLayer=null;}
+}
+
+function updateMapVisibility(){
+  if(eaLayer){
+    if($('showEA').checked && !map.hasLayer(eaLayer)) eaLayer.addTo(map);
+    if(!$('showEA').checked && map.hasLayer(eaLayer)) map.removeLayer(eaLayer);
+  }
+  if(centroidLayer){
+    if($('showCentroids').checked && !map.hasLayer(centroidLayer)) centroidLayer.addTo(map);
+    if(!$('showCentroids').checked && map.hasLayer(centroidLayer)) map.removeLayer(centroidLayer);
+  }
+  if(floodLayer){
+    if($('showFlood').checked && !map.hasLayer(floodLayer)) floodLayer.addTo(map);
+    if(!$('showFlood').checked && map.hasLayer(floodLayer)) map.removeLayer(floodLayer);
+  }
+}
+
+$('showEA').addEventListener('change',updateMapVisibility);
+$('showCentroids').addEventListener('change',()=>{
+  renderEALayer();
+});
+$('showFlood').addEventListener('change',updateMapVisibility);
+$('basemap').addEventListener('change',e=>setBasemap(e.target.value));
+
+$('zoomSelected').addEventListener('click',()=>{
+  if(!selectedFeatures.length) return;
+  const bounds=L.geoJSON({
+    type:'FeatureCollection',features:selectedFeatures
+  }).getBounds();
+  if(bounds.isValid()) map.fitBounds(bounds.pad(.08));
+});
+$('zoomGambia').addEventListener('click',()=>map.fitBounds(GAMBIA_BOUNDS));
+
+/* -------------------- CHARTS & ANALYTICS -------------------- */
+
+function destroyChart(name){
+  if(charts[name]) charts[name].destroy();
+}
+
+function makeChart(name,canvas,type,data,options={}){
+  destroyChart(name);
+  charts[name]=new Chart($(canvas),{
+    type,
+    data,
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:type==='doughnut'||type==='pie',position:'bottom'}},
+      scales:type==='doughnut'||type==='pie'?{}:{
+        x:{ticks:{font:{size:9}}},
+        y:{beginAtZero:true,ticks:{font:{size:9}}}
+      },
+      ...options
+    }
+  });
+}
+
+function groupTotals(features,groupField,valueField){
+  const result={};
+  features.forEach(f=>{
+    const name=String(prop(f,groupField)||'Unknown');
+    result[name]=(result[name]||0)+(numeric(prop(f,valueField))||0);
+  });
+  return Object.entries(result).sort((a,b)=>b[1]-a[1]).slice(0,12);
+}
+
+function updateAnalytics(){
+  const count=selectedFeatures.length;
+  const popField=$('populationField').value;
+  const hhField=$('householdField').value;
+  const pop=sumField(selectedFeatures,popField);
+  const hh=sumField(selectedFeatures,hhField);
+  const area=sumField(selectedFeatures,'Area_sqkm');
+
+  $('kpiEAs').textContent=fmt(count);
+  $('kpiPop').textContent=pop===null?'—':fmt(pop);
+  $('kpiHH').textContent=hh===null?'—':fmt(hh);
+  $('kpiArea').textContent=area===null?'—':fmt(area,2);
+  $('popUnit').textContent=popField||'Population field not selected';
+
+  const groups=groupTotals(selectedFeatures,'lganame',popField);
+  if(popField && groups.length){
+    makeChart('population','populationChart','bar',{
+      labels:groups.map(x=>x[0]),
+      datasets:[{label:popField,data:groups.map(x=>x[1])}]
+    });
+  }else{
+    makeChart('population','populationChart','bar',{
+      labels:['No population field'],
+      datasets:[{label:'Population',data:[0]}]
+    });
+  }
+
+  const eaGroups=groupTotals(selectedFeatures,'wardname','Area_sqkm');
+  makeChart('admin','adminChart','bar',{
+    labels:eaGroups.map(x=>x[0]),
+    datasets:[{label:'EA area (km²)',data:eaGroups.map(x=>x[1])}]
+  });
+
+  updateScenarioChart();
+  updateSimulationKPIs();
+
+  $('summaryTable').innerHTML=`
+    <tr><td>Selected area</td><td>${esc(selectionLabel())}</td></tr>
+    <tr><td>EA features</td><td>${fmt(count)}</td></tr>
+    <tr><td>Population source</td><td>${esc(popField||'Not selected')}</td></tr>
+    <tr><td>Population total</td><td>${pop===null?'Not available':fmt(pop)}</td></tr>
+    <tr><td>Household source</td><td>${esc(hhField||'Not selected')}</td></tr>
+    <tr><td>Household total</td><td>${hh===null?'Not available':fmt(hh)}</td></tr>
+    <tr><td>Area source</td><td>Area_sqkm</td></tr>
+    <tr><td>Total area</td><td>${area===null?'Not available':fmt(area,3)+' km²'}</td></tr>
+  `;
+}
+
+function updateScenarioChart(){
+  const scenario=getScenario();
+  const years=[];
+  const rises=[];
+  for(let year=scenario.baseYear;year<=2100;year+=5){
+    years.push(String(year));
+    rises.push(Math.max(0,year-scenario.baseYear)*scenario.rate/1000);
+  }
+  if(years[years.length-1]!=='2100'){
+    years.push('2100');
+    rises.push(Math.max(0,2100-scenario.baseYear)*scenario.rate/1000);
+  }
+  makeChart('scenario','scenarioChart','line',{
+    labels:years,
+    datasets:[{
+      label:'Scenario sea-level rise (m)',
+      data:rises,tension:.25,fill:false
+    }]
+  });
+}
+
+function updateSimulationKPIs(){
+  const s=getScenario();
+  $('kpiRise').textContent=fmt(s.rise,3);
+  $('kpiThreshold').textContent=fmt(s.threshold,3);
+  $('yearLabel').textContent=s.year;
+
+  if(!simulationHasRun){
+    $('kpiExposed').textContent='—';
+    $('kpiExposedPop').textContent='—';
+    return;
+  }
+
+  const exposed=simulationFeatures.length;
+  const popField=$('populationField').value;
+  const exposedPop=sumField(simulationFeatures,popField);
+
+  $('kpiExposed').textContent=fmt(exposed);
+  $('kpiExposedPop').textContent=exposedPop===null?'—':fmt(exposedPop);
+
+  makeChart('exposure','exposureChart','doughnut',{
+    labels:['Centroid below threshold','Centroid above threshold / unsampled'],
+    datasets:[{
+      data:[exposed,Math.max(0,selectedFeatures.length-exposed)]
+    }]
+  });
+
+  $('exposureNote').textContent=
+    `${exposed} of ${selectedFeatures.length} selected EAs were flagged by centroid elevation screening. `+
+    (exposedPop===null
+      ? 'Population exposure could not be calculated because no valid population field is selected.'
+      : `${fmt(exposedPop)} people are recorded in the flagged EAs. This is not a flooded-population estimate.`);
+}
+
+/* -------------------- TERRARIUM DEM SAMPLING -------------------- */
+
+const DEM_ZOOM=10;
+const tileCache=new Map();
+
+function lonLatToTile(lon,lat,z){
+  const n=Math.pow(2,z);
+  const x=(lon+180)/360*n;
+  const latRad=lat*Math.PI/180;
+  const y=(1-Math.asinh(Math.tan(latRad))/Math.PI)/2*n;
+  return {x,y,tx:Math.floor(x),ty:Math.floor(y),
+    px:Math.min(255,Math.max(0,Math.floor((x-Math.floor(x))*256))),
+    py:Math.min(255,Math.max(0,Math.floor((y-Math.floor(y))*256)))};
+}
+
+function loadDemTile(tx,ty,z){
+  const key=`${z}/${tx}/${ty}`;
+  if(tileCache.has(key)) return tileCache.get(key);
+
+  const promise=new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>{
+      try{
+        const canvas=document.createElement('canvas');
+        canvas.width=256;canvas.height=256;
+        const ctx=canvas.getContext('2d',{willReadFrequently:true});
+        ctx.drawImage(img,0,0);
+        const imageData=ctx.getImageData(0,0,256,256);
+        resolve(imageData);
+      }catch(error){reject(error);}
+    };
+    img.onerror=()=>reject(new Error('DEM tile could not be loaded'));
+    img.src=`https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${tx}/${ty}.png`;
+  });
+
+  tileCache.set(key,promise);
+  return promise;
+}
+
+async function sampleElevation(lon,lat){
+  const t=lonLatToTile(lon,lat,DEM_ZOOM);
+  if(t.ty<0 || t.ty>=Math.pow(2,DEM_ZOOM)) return null;
+  try{
+    const data=await loadDemTile(t.tx,t.ty,DEM_ZOOM);
+    const i=(t.py*256+t.px)*4;
+    const r=data.data[i],g=data.data[i+1],b=data.data[i+2];
+    return (r*256+g+b/256)-32768;
+  }catch(error){
+    return null;
+  }
+}
+
+/* -------------------- SIMULATION GRID -------------------- */
+
+function pointInsideSelected(lon,lat){
+  const point=turf.point([lon,lat]);
+  for(const feature of selectedFeatures){
+    try{
+      if(turf.booleanPointInPolygon(point,feature)) return true;
+    }catch(e){}
+  }
+  return false;
+}
+
+function getSelectedBounds(){
+  const layer=L.geoJSON({
+    type:'FeatureCollection',features:selectedFeatures
+  });
+  return layer.getBounds();
+}
+
+function createGrid(bounds,columns=75,rows=75){
+  const west=bounds.getWest();
+  const east=bounds.getEast();
+  const south=bounds.getSouth();
+  const north=bounds.getNorth();
+  const cells=[];
+  for(let y=0;y<rows;y++){
+    const lat=north-(y+.5)/rows*(north-south);
+    for(let x=0;x<columns;x++){
+      const lon=west+(x+.5)/columns*(east-west);
+      if(pointInsideSelected(lon,lat)){
+        cells.push({lon,lat,x,y});
+      }
+    }
+  }
+  return {cells,west,east,south,north,columns,rows};
+}
+
+async function runSimulation(){
+  if(!selectedFeatures.length){
+    setStatus('simulationStatus','No EA features in the selected area. Load data and select an area first.','error');
+    return;
+  }
+
+  $('loading').style.display='block';
+  $('runBtn').disabled=true;
+  setStatus('simulationStatus','Preparing selected-area elevation grid...');
+
+  try{
+    const bounds=getSelectedBounds();
+    if(!bounds.isValid()) throw new Error('Selected area has invalid geometry.');
+
+    const grid=createGrid(bounds,75,75);
+    if(!grid.cells.length) throw new Error('No valid simulation grid cells found.');
+
+    const scenario=getScenario();
+    const threshold=scenario.threshold;
+    const results=[];
+    const batchSize=60;
+
+    for(let i=0;i<grid.cells.length;i+=batchSize){
+      const batch=grid.cells.slice(i,i+batchSize);
+      const values=await Promise.all(batch.map(async cell=>{
+        const elevation=await sampleElevation(cell.lon,cell.lat);
+        return {...cell,elevation,
+          inundated:elevation!==null && elevation<=threshold
+        };
+      }));
+      results.push(...values);
+      setStatus('simulationStatus',
+        `Sampling DEM: ${Math.min(i+batchSize,grid.cells.length)} / ${grid.cells.length} grid cells...`
+      );
+    }
+
+    simulationCells=results;
+    const exposed=[];
+    let validCount=0;
+    let floodedCount=0;
+
+    results.forEach(c=>{
+      if(c.elevation!==null){
+        validCount++;
+        if(c.inundated) floodedCount++;
+      }
+    });
+
+    setStatus('simulationStatus',
+      `Grid simulation completed. ${validCount} valid DEM samples; ${floodedCount} cells are below the selected threshold.`,
+      'success'
+    );
+
+    // EA centroid screening. This is deliberately separate from
+    // the gridded inundation overlay.
+    setStatus('simulationStatus',
+      'Grid completed. Sampling selected EA centroids for the exposure indicator...'
+    );
+
+    const centroidResults=[];
+    for(let i=0;i<selectedFeatures.length;i+=40){
+      const batch=selectedFeatures.slice(i,i+40);
+      const values=await Promise.all(batch.map(async f=>{
+        try{
+          const c=turf.centroid(f).geometry.coordinates;
+          const elevation=await sampleElevation(c[0],c[1]);
+          return {feature:f,elevation,
+            exposed:elevation!==null && elevation<=threshold};
+        }catch(e){
+          return {feature:f,elevation:null,exposed:false};
+        }
+      }));
+      centroidResults.push(...values);
+    }
+
+    simulationFeatures=centroidResults
+      .filter(x=>x.exposed)
+      .map(x=>x.feature);
+
+    simulationHasRun=true;
+    renderSimulationOverlay(grid,results);
+    updateAnalytics();
+    updateSimulationKPIs();
+
+    $('exposureNote').textContent=
+      `${floodedCount} of ${validCount} valid grid samples were below the threshold. `+
+      `${simulationFeatures.length} EA centroids were flagged. `+
+      `Grid samples are not a measured inundated area or a verified flood boundary.`;
+
+  }catch(error){
+    setStatus('simulationStatus','Simulation failed: '+error.message,'error');
+  }finally{
+    $('loading').style.display='none';
+    $('runBtn').disabled=false;
+  }
+}
+
+function renderSimulationOverlay(grid,results){
+  clearSimulationLayers();
+
+  const canvas=document.createElement('canvas');
+  canvas.width=grid.columns;
+  canvas.height=grid.rows;
+  const ctx=canvas.getContext('2d');
+  const image=ctx.createImageData(grid.columns,grid.rows);
+
+  results.forEach(c=>{
+    const index=(c.y*grid.columns+c.x)*4;
+    if(c.elevation===null){
+      image.data[index+3]=0;
+    }else if(c.inundated){
+      image.data[index]=225;
+      image.data[index+1]=47;
+      image.data[index+2]=55;
+      image.data[index+3]=155;
+    }else{
+      image.data[index]=0;
+      image.data[index+1]=0;
+      image.data[index+2]=0;
+      image.data[index+3]=0;
+    }
+  });
+
+  ctx.putImageData(image,0,0);
+  const url=canvas.toDataURL('image/png');
+
+  floodLayer=L.imageOverlay(
+    url,
+    [[grid.south,grid.west],[grid.north,grid.east]],
+    {opacity:.8,interactive:false}
+  );
+  if($('showFlood').checked) floodLayer.addTo(map);
+}
+
+$('runBtn').addEventListener('click',runSimulation);
+
+$('resetSimulationBtn').addEventListener('click',()=>{
+  simulationHasRun=false;
+  simulationFeatures=[];
+  simulationCells=[];
+  clearSimulationLayers();
+  updateAnalytics();
+  setStatus('simulationStatus','Simulation reset. Run again to calculate the selected scenario.');
+  $('exposureNote').textContent='Run the simulation to calculate the screening summary.';
+});
+
+/* -------------------- SCENARIO CONTROL EVENTS -------------------- */
+
+$('scenarioYear').addEventListener('input',()=>{
+  $('yearLabel').textContent=$('scenarioYear').value;
+  updateScenarioChart();
+  updateSimulationKPIs();
+});
+['riseRate','customRate','baseYear','waterAllowance','scenarioOffset'].forEach(id=>{
+  $(id).addEventListener('change',()=>{
+    updateScenarioChart();
+    updateSimulationKPIs();
+    if(simulationHasRun){
+      setStatus('simulationStatus','Scenario settings changed. Run simulation again to refresh the map and exposure results.');
+      simulationHasRun=false;
+      simulationFeatures=[];
+      clearSimulationLayers();
+      updateSimulationKPIs();
+    }
+  });
+});
+
+/* -------------------- EXPORTS -------------------- */
+
+function downloadBlob(content,filename,type){
   const blob=new Blob([content],{type});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;
-  a.download=filename;
-  a.click();
+  a.href=url;a.download=filename;
+  document.body.appendChild(a);a.click();a.remove();
   URL.revokeObjectURL(url);
 }
 
+function csvEscape(value){
+  const text=String(value??'');
+  return '"'+text.replace(/"/g,'""')+'"';
+}
+
 $('exportCSV').addEventListener('click',()=>{
-  const header=[
-    'Projection_Year','Scenario','Sea_Level_Rise_m',
-    'Tidal_Allowance_m','Offset_m','Effective_Water_Level_m',
-    'Visible_Inundated_Area_km2',
-    'Visible_Sampled_Area_km2',
-    'Terrain_Samples','Inundation_Share_percent'
-  ];
+  const popField=$('populationField').value;
+  const hhField=$('householdField').value;
+  const rows=[[
+    'RCO','lganame','distname','wardname','feacode','eaname',
+    'Area_sqkm','population_field','population_value',
+    'household_field','household_value'
+  ]];
 
-  const row=[
-    $('year').value,
-    $('scenario').value,
-    getRise(),
-    $('tide').value,
-    $('offset').value,
-    effectiveLevel(),
-    totalFloodArea/1e6,
-    totalSampleArea/1e6,
-    totalSamples,
-    totalSampleArea>0?
-      totalFloodArea/totalSampleArea*100:0
-  ];
+  selectedFeatures.forEach(f=>rows.push([
+    prop(f,'RCO'),prop(f,'lganame'),prop(f,'distname'),
+    prop(f,'wardname'),prop(f,'feacode'),prop(f,'eaname'),
+    prop(f,'Area_sqkm'),popField,
+    popField?prop(f,popField):'',
+    hhField,hhField?prop(f,hhField):''
+  ]));
 
-  downloadFile(
-    [header.join(','),row.join(',')].join('\n'),
-    'Gambia_Sea_Level_Rise_Simulation.csv',
-    'text/csv'
+  downloadBlob(
+    rows.map(r=>r.map(csvEscape).join(',')).join('\n'),
+    'Gambia_Selected_Area_Statistics.csv','text/csv'
   );
 });
 
 $('exportGeoJSON').addEventListener('click',()=>{
-  if (!selectedGeometry) {
-    alert('Select an administrative area first.');
+  downloadBlob(JSON.stringify({
+    type:'FeatureCollection',features:selectedFeatures
+  },null,2),'Gambia_Selected_EAs.geojson','application/geo+json');
+});
+
+$('exportSimulation').addEventListener('click',()=>{
+  if(!simulationHasRun){
+    alert('Run the simulation before exporting the simulation grid.');
     return;
   }
-
-  const feature={
-    type:'Feature',
-    properties:{
-      projection_year:$('year').value,
-      scenario:$('scenario').value,
-      effective_water_level_m:effectiveLevel()
-    },
-    geometry:selectedGeometry
-  };
-
-  downloadFile(
-    JSON.stringify(feature,null,2),
-    'Gambia_Selected_AOI.geojson',
-    'application/geo+json'
+  const rows=[['longitude','latitude','elevation_m','below_scenario_threshold']];
+  simulationCells.forEach(c=>rows.push([
+    c.lon,c.lat,c.elevation===null?'':c.elevation,c.inundated
+  ]));
+  downloadBlob(
+    rows.map(r=>r.map(csvEscape).join(',')).join('\n'),
+    'Gambia_Sea_Level_Simulation_Grid.csv','text/csv'
   );
 });
 
-$('exportExposure').addEventListener('click',()=>{
-  if (!exposureResults.length) {
-    alert('Upload exposure GeoJSON first.');
-    return;
-  }
+$('clearBtn').addEventListener('click',()=>{
+  allFeatures=[];
+  selectedFeatures=[];
+  simulationFeatures=[];
+  simulationCells=[];
+  simulationHasRun=false;
+  clearSimulationLayers();
+  if(eaLayer) map.removeLayer(eaLayer);
+  if(centroidLayer) map.removeLayer(centroidLayer);
+  eaLayer=null;centroidLayer=null;
 
-  const header='Name,Population,Households,Longitude,Latitude';
-  const rows=exposureResults.map(x=>
-    [
-      JSON.stringify(x.name),
-      x.pop,x.hh,
-      x.centroid[0],x.centroid[1]
-    ].join(',')
-  );
-
-  downloadFile(
-    [header,...rows].join('\n'),
-    'Gambia_EA_Exposure_Input.csv',
-    'text/csv'
-  );
+  ['regionSelect','lgaSelect','districtSelect','wardSelect','eaSelect'].forEach(id=>{
+    setOptions($(id),[], 'Load EA data first');
+  });
+  setOptions($('populationField'),[],'Load EA data first');
+  setOptions($('householdField'),[],'Optional');
+  updateAnalytics();
+  setStatus('dataStatus','EA data cleared.');
+  setStatus('simulationStatus','Waiting for data.');
+  map.fitBounds(GAMBIA_BOUNDS);
 });
 
-/* ============================================================
-   INITIALISE
-   ============================================================ */
+/* -------------------- INITIAL DISPLAY -------------------- */
 
-updateLabels();
-updateCharts();
-makeSimulationLayer();
-
-map.whenReady(()=>{
-  initialiseBoundaries();
-});
+updateScenarioChart();
+updateAnalytics();
+map.fitBounds(GAMBIA_BOUNDS);
 
 </script>
 </body>
 </html>
+
